@@ -1,67 +1,69 @@
 <template>
-    <div v-if="game" class="scorecard">
-        <div class="scorecard__main">
-            <div class="scorecard__closer" @click="close">
-                <img src="" alt="close">
-            </div>
-            <h1 class="scorecard__title">
-                Výsledková listina
-            </h1>
-            <div class="scorecard__content">
-                <div class="scorecard__score--mobile">
-                    <span class="scorecard__score--mobile__score">
-                        {{ game.homeTeamScore }}
-                    </span>
-                    <span>-</span>
-                    <span class="scorecard__score--mobile__score">
-                        {{ game.awayTeamScore }}
-                    </span>
+    <div v-if="game" class="scorecard" @click="close">
+        <Transition name="fade">
+            <div v-if="show" class="scorecard__main" @click.stop>
+                <div class="scorecard__closer" @click="close">
+                    <img src="@/assets/icons/close.svg" alt="close">
                 </div>
-                <div class="scorecard__content__inner">
-                    <div class="scorecard__team-info">
-                        <SanityImage 
-                            v-if="game.homeTeam?.logo?.asset?._ref"
-                            :asset-id="game.homeTeam.logo.asset._ref"
-                            :alt="game.homeTeam.logo.alt"
-                            auto="format"
-                            height="40"
-                            width="40"
-                            fit="max"
-                            h="80"
-                            w="80"
-                        />
-                        <span>
-                            {{ game.homeTeam.name }}
+                <h1 class="scorecard__title">
+                    Výsledková listina
+                </h1>
+                <div class="scorecard__content">
+                    <div class="scorecard__score--mobile">
+                        <span class="scorecard__score--mobile__score">
+                            {{ game.homeTeamScore }}
+                        </span>
+                        <span>-</span>
+                        <span class="scorecard__score--mobile__score">
+                            {{ game.awayTeamScore }}
                         </span>
                     </div>
-                    <div class="scorecard__score--desktop">
-                        {{ game.homeTeamScore + ' - ' + game.awayTeamScore }}
+                    <div class="scorecard__content__inner">
+                        <div class="scorecard__team-info">
+                            <SanityImage 
+                                v-if="game.homeTeam?.logo?.asset?._ref"
+                                :asset-id="game.homeTeam.logo.asset._ref"
+                                :alt="game.homeTeam.logo.alt"
+                                auto="format"
+                                height="80"
+                                width="80"
+                                fit="max"
+                                h="160"
+                                w="160"
+                            />
+                            <span>
+                                {{ game.homeTeam.name }}
+                            </span>
+                        </div>
+                        <div class="scorecard__score--desktop">
+                            {{ game.homeTeamScore + ' - ' + game.awayTeamScore }}
+                        </div>
+                        <div class="scorecard__team-info">
+                            <SanityImage 
+                                v-if="game.awayTeam?.logo?.asset?._ref"
+                                :asset-id="game.awayTeam.logo.asset._ref"
+                                :alt="game.awayTeam.logo.alt"
+                                auto="format"
+                                height="80"
+                                width="80"
+                                fit="max"
+                                h="160"
+                                w="160"
+                            />
+                            <span>
+                                {{ game.awayTeam.name }}
+                            </span>
+                        </div>
                     </div>
-                    <div class="scorecard__team-info">
-                        <SanityImage 
-                            v-if="game.awayTeam?.logo?.asset?._ref"
-                            :asset-id="game.awayTeam.logo.asset._ref"
-                            :alt="game.awayTeam.logo.alt"
-                            auto="format"
-                            height="40"
-                            width="40"
-                            fit="max"
-                            h="80"
-                            w="80"
-                        />
-                        <span>
-                            {{ game.awayTeam.name }}
-                        </span>
+                    <div class="scorecard__date">
+                        {{ new Date(game.date).toLocaleDateString() }}
                     </div>
-                </div>
-                <div class="scorecard__date">
-                    {{ new Date(game.date).toLocaleDateString() }}
-                </div>
-                <div class="scorecard__time">
-                    <!-- {{ game. }} !-->
+                    <div class="scorecard__time">
+                        {{ new  Date(game.date).toLocaleTimeString([], { timeStyle: 'short' }) }}
+                    </div>
                 </div>
             </div>
-        </div>
+        </Transition>
     </div>
 </template>
 
@@ -73,8 +75,17 @@
         game?: Game;
     }>();
     const close = () => {
-        emit('close');        
+        show.value = false; 
+        setTimeout(() => {
+            emit('close');  
+        }, 400);    
     };
+    const show = ref(false);
+    onMounted(() => {
+        setTimeout(() => {
+            show.value = true;
+        }, 50);
+    });
 </script>
 
 <style lang="scss" scoped>
@@ -103,6 +114,7 @@
         font-weight: 600;
         padding: 24px 40px;
     }
+
     &__closer {
         position: absolute;
         top: 0;
@@ -110,6 +122,7 @@
         padding: 12px 16px;
         cursor: pointer;
     }
+
     &__title {
         font-size: 24px;
         line-height: 32px;
@@ -120,6 +133,7 @@
             line-height: 36px;
         }
     }
+
     &__content {
         width: 100%;
 
@@ -131,6 +145,7 @@
             padding: 20px 0;
         }
     }
+
     &__score--mobile {
         white-space: nowrap;
         width: 100%;
@@ -151,6 +166,7 @@
             text-align: center;
         }
     }
+
     &__team-info {
         width: 50%;
         display: grid;
@@ -162,6 +178,7 @@
             width: 33.3333%;
         }
     }
+
     &___score--desktop {
         white-space: nowrap;
         display: flex;
@@ -171,6 +188,7 @@
         font-size: 48px;
         line-height: 1;
     }
+
     &__date {
         display: flex;
         justify-content: center;
@@ -178,11 +196,21 @@
         line-height: 28px;
         padding-top: 20px;
     }
+
     &__time {
         display: flex;
         justify-content: center;
         white-space: nowrap;
         font-weight: 400;
     }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

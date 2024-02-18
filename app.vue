@@ -4,7 +4,9 @@
     <NuxtPage />
     <SFooter />
   </div>
-  <GamePopUp v-if="popupGame" :game="popupGame" @close="popupGame = null"/>
+  <Transition name="fade">
+    <GamePopUp v-if="popupGame" :game="popupGame" @close="popupGame = null"/>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -16,14 +18,23 @@
 
 <style scoped lang="scss">
 .layout {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 100px;
-    width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 100px;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
