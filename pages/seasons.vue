@@ -1,10 +1,11 @@
 <template>
     <div class="page">
+        <TeamTabs />
         <div v-if="seasons?.length" class="seasons">
             <div v-for="season in seasons" :key="season._id" class="seasons__season">
                 <h3 v-if="season.year" class="seasons__season__title">{{ season.year }}</h3>
                 <UnorderedList v-if="season.schedules?.length">
-                    <ListItemGame v-for="(game, index) in season.schedules[0].games" :key="index" :game="game" />
+                    <ListItemGame v-for="(game, index) in getGames(season)" :key="index" :game="game" />
                 </UnorderedList>
             </div>
         </div>
@@ -12,7 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import type {Season} from '~/types/season';
+    import type {Season} from '~/types/season';
+    import { useMainStore } from '~/stores/main';
+    const { activeTab } = storeToRefs(useMainStore());
 
     const query = groq `
         *[_type == 'season']{
@@ -32,12 +35,12 @@ import type {Season} from '~/types/season';
         }
     `;
     const { data, refresh } = useSanityQuery<Season[]>(query);
-
-    const activeTab = 'Tym A';
-
     const seasons = computed(() => {
         return data?.value?.filter((season) => season.schedules?.length).sort((a, b) => parseInt(b.year as string) - parseInt(a.year as string));
     });
+    const getGames = (season: Season) => {
+        //season.schedules[].games;
+    };
 </script>
 
 <style lang="scss" scoped>

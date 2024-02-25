@@ -168,6 +168,9 @@
     }
 
     &__team-info {
+        text-align: center;
+        font-size: 24px;
+        line-height: 32px;
         width: 50%;
         display: grid;
         grid-template-columns: repeat(1,minmax(0,1fr));
