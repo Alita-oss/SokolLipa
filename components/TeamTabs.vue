@@ -33,8 +33,16 @@ ul {
         font-size: 18px;
         line-height: 28px;
 
+        &:hover {
+            border-bottom: 2px solid var(--color-green-600-quarter);
+        }
+
         &.active {
             border-bottom: 2px solid var(--color-green-600);
+
+            &:hover {
+                border-bottom: 2px solid var(--color-green-600);
+            }
         }
     }
 }

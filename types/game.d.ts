@@ -1,4 +1,4 @@
-import type { SanityImage } from "@sanity/image-url/lib/types/types";
+import type { SanityImage } from '@sanity/image-url/lib/types/types';
 
 export type Game = {
     homeTeam: {

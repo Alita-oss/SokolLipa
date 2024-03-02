@@ -40,6 +40,11 @@
     });
     const getGames = (season: Season) => {
         //season.schedules[].games;
+        const { schedules } = season;
+        const schedule = schedules?.find((value) => {
+            return value.league.name === activeTab.value;
+        }); 
+        return schedule?.games;
     };
 </script>
 
