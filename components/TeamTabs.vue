@@ -32,6 +32,7 @@ ul {
         padding: 4px 0;
         font-size: 18px;
         line-height: 28px;
+        border-bottom: 2px solid transparent;
 
         &:hover {
             border-bottom: 2px solid var(--color-green-600-quarter);
