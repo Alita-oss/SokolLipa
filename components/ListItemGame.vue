@@ -17,11 +17,14 @@
             </span>
         </div>
         <div class="block block--center">
-            <div class="block__score">
+            <div v-if="hasScores" class="block__score">
                 {{ game.homeTeamScore + ' - ' + game.awayTeamScore }}
             </div>
             <div class="block__date">
                 {{ new Date(game.date).toLocaleDateString() }}
+            </div>
+            <div v-if="!hasScores" class="block__time">
+                {{ new  Date(game.date).toLocaleTimeString([], { timeStyle: 'short' }) }}
             </div>
         </div>
         <div class="block  block--right">
@@ -47,6 +50,8 @@
     import { useMainStore } from '~/stores/main';
     import type { Game } from '~/types/game';
 
+    const isUndefined = useIsUndefined();
+
     const props = defineProps<{
         game: Game;
     }>();
@@ -55,6 +60,8 @@
     const onClick = () => {
         popupGame.value = props.game;
     };
+
+    const hasScores = !isUndefined(props.game.homeTeamScore) && !isUndefined(props.game.awayTeamScore);
 </script>
 
 <style scoped lang="scss">
@@ -108,6 +115,11 @@ li {
         font-size: 18px;
         line-height: 28px;
         white-space: nowrap;
+    }
+
+    &__time {
+        white-space: nowrap;
+        font-weight: 400;
     }
 }
 </style>

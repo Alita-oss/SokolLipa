@@ -35,7 +35,7 @@
                                 {{ game.homeTeam.name }}
                             </span>
                         </div>
-                        <div class="scorecard__score--desktop">
+                        <div v-if="!isUndefined(game.homeTeamScore) || !isUndefined(game.awayTeamScore)" class="scorecard__score--desktop">
                             {{ game.homeTeamScore + ' - ' + game.awayTeamScore }}
                         </div>
                         <div class="scorecard__team-info">
@@ -69,6 +69,8 @@
 
 <script setup lang="ts">
     import type { Game } from '~/types/game';
+
+    const isUndefined = useIsUndefined();
 
     const emit = defineEmits(['close']);
     const props = defineProps<{
