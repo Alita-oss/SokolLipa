@@ -13,11 +13,11 @@
 </template>
 
 <script setup lang="ts">
-    import type {Season} from '~/types/season';
-    import { useMainStore } from '~/stores/main';
-    const { activeTab } = storeToRefs(useMainStore());
+import type { Season } from "~/types/season";
+import { useMainStore } from "~/stores/main";
+const { activeTab } = storeToRefs(useMainStore());
 
-    const query = groq `
+const query = groq`
         *[_type == 'season']{
             _id,
             year,
@@ -34,18 +34,20 @@
             },
         }
     `;
-    const { data, refresh } = useSanityQuery<Season[]>(query);
-    const seasons = computed(() => {
-        return data?.value?.filter((season) => season.schedules?.length).sort((a, b) => parseInt(b.year as string) - parseInt(a.year as string));
+const { data, refresh } = useSanityQuery<Season[]>(query);
+const seasons = computed(() => {
+    return data?.value
+        ?.filter((season) => season.schedules?.length)
+        .sort((a, b) => parseInt(b.year as string) - parseInt(a.year as string));
+});
+const getGames = (season: Season) => {
+    //season.schedules[].games;
+    const { schedules } = season;
+    const schedule = schedules?.find((value) => {
+        return value.league.name === activeTab.value;
     });
-    const getGames = (season: Season) => {
-        //season.schedules[].games;
-        const { schedules } = season;
-        const schedule = schedules?.find((value) => {
-            return value.league.name === activeTab.value;
-        }); 
-        return schedule?.games;
-    };
+    return schedule?.games;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -53,7 +55,7 @@
     display: grid;
     gap: 40px;
 
-    &__season { 
+    &__season {
         &__title {
             font-weight: 600;
             margin-bottom: 8px;
