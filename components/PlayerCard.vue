@@ -7,7 +7,6 @@
                 :alt="player.name"
                 auto="format"
                 height="240"
-                width="auto"
                 fit="max"
                 h="480"
             />
