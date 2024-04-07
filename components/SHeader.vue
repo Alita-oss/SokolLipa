@@ -5,7 +5,7 @@
         </NuxtLink>
 
         <div class="nav-wrapper">
-            <nav>
+            <nav :class="{ active: navOpened }">
                 <ul>
                     <li 
                         v-for="item in items" 
@@ -16,6 +16,9 @@
                     </li>
                 </ul>
             </nav>
+        </div>
+        <div class="hamburger-menu" @click="toggleNav">
+            <img src="@/assets/icons/menu.svg" alt="hamburger menu" />
         </div>
     </header>
 </template>
@@ -33,6 +36,11 @@ const items = [
     { link: '/gallery', name: 'Fotogalerie' },
     { link: '/publicita', name: 'Publicita' },
 ];
+
+const navOpened = ref(false);
+const toggleNav = () => {
+    navOpened.value = !navOpened.value;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -105,16 +113,28 @@ nav {
     left: 0;
     width: 100%;
     height: 100%;
+    display: none;
 
     @media (min-width: 1024px) {
         position: relative;
         top: auto;
         left: auto;
         width: auto;
+        display: block;
+    }
+
+    &.active {
+        display: block;
     }
 }
 
 .active {
     background-color: var(--color-green-600);
+}
+
+.hamburger-menu {
+    @media (min-width: 1024px) {
+        display: none;
+    }
 }
 </style>

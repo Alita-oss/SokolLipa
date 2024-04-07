@@ -7,8 +7,8 @@
                 alt="Souboj o míč mezi hráči"
                 w="1600"
             />
-            <div class="hero__info">
-               !! Hello world !!
+            <div v-if="nextGame" class="hero__info">
+               <HeroInfo :game="nextGame"/>
             </div>
         </div>
         <h3 class="season__title">{{ teamASeason.year }} Tým A</h3>
@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import type { Season } from '~/types/season';
-import type { SanityImage } from '@sanity/image-url/lib/types/types';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 const heroQuery = groq `*[_type == 'hero'][0]{image}`;
 const seasonQuery = groq `
@@ -49,9 +49,9 @@ const teamASeason = computed(() => {
     return seasons && { year: seasons[0].year, games: seasons[0].schedules?.find((x) => x.league.name === 'Tym A')?.games };
 });
 
-const sanityHero = useSanityQuery<SanityImage>(heroQuery);
+const sanityHero = useSanityQuery<SanityImageSource>(heroQuery);
 const srcOfHero = computed(() => {
-    return sanityHero.data?.value.image;
+    return sanityHero.data.value?.image;
 });
 
 const nextGame = computed(() => {
