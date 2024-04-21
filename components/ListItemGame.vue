@@ -61,7 +61,9 @@
         popupGame.value = props.game;
     };
 
-    const hasScores = !isUndefined(props.game.homeTeamScore) && !isUndefined(props.game.awayTeamScore);
+    const hasScores = computed(() => {
+        return !isUndefined(props.game.homeTeamScore) && !isUndefined(props.game.awayTeamScore)
+    });
 </script>
 
 <style scoped lang="scss">

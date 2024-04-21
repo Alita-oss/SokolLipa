@@ -5,8 +5,8 @@
             <div v-for="gallery in galleries" :key="gallery._id">
                 <div v-if="gallery.teamName == activeTab && gallery.photoAlbums">
                     <div v-for="album in gallery.photoAlbums" :key="album._key">
-                        <div v-if="album.photos" class="album_photos">
-                            <h3 class="album__title">{{ album.name }}</h3>
+                        <h3 class="album__title">{{ album.name }}</h3>
+                        <div v-if="album.photos" class="album__photos">
                             <div v-for="photo in album.photos" :key="photo._id" class="album__photo photo">
                                 <SanityImage 
                                     v-if="photo.asset?._ref"
@@ -55,13 +55,17 @@
         display: grid;
         gap: 16px;
         margin: 0 0 40px 0;
+
+        @media (min-width: 1024px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
     }
 
     &__photo {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
+        align-items: center;   
 
         &__caption {
             font-style: italic;

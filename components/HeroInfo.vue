@@ -1,4 +1,7 @@
 <template>
+    <span v-if="countdown && isMobile" class="hero__countdown fuzz">
+        {{ countdown }}
+    </span>
     <div v-if="game" class="hero__row">
         <div class="hero__row__section">
             <SanityImage 
@@ -13,8 +16,8 @@
                 w="200"
             />
         </div>
-        <div class="hero__row__section hero__desktop-countdown">
-            <span v-if="countdown">
+        <div v-if="countdown && !isMobile" class="hero__row__section">
+            <span class="hero__countdown fuzz">
                 {{ countdown }}
             </span> 
         </div>
@@ -34,7 +37,7 @@
     </div>
 
     <div v-if="game" class="hero__row">
-        <span class="hero__row__section hero__row__section--big fuzz">
+        <span class="hero__row__section hero__row__section--big hero__row__section__team-name fuzz">
             {{ game.homeTeam.name }}
         </span>
         <div class="hero__row__section hero__row__section--medium">
@@ -45,7 +48,7 @@
                 {{ new  Date(game.date).toLocaleTimeString([], { timeStyle: 'short' }) }}
             </span>
         </div>
-        <span class="hero__row__section hero__row__section--big fuzz">
+        <span class="hero__row__section hero__row__section--big hero__row__section__team-name fuzz">
             {{ game.awayTeam.name }}
         </span>
     </div>
@@ -54,6 +57,7 @@
 <script setup lang="ts">
 import type { Game } from '~/types/game';
 
+const { isMobile } = useDevice();
 const props = defineProps<{
     game?: Game;
 }>();
@@ -136,16 +140,18 @@ const setCountdown = () => {
                 font-size: 24px;
                 line-height: 32px;
             }
+
+            &__team-name {
+                display: none;
+
+                @media (min-width: 1024px) {
+                    display: flex;
+                }
+            }
         }
     }
 
-    &__desktop-countdown {
-        font-weight: 700;
-        font-size: 60px;
-        line-height: 1;
-    }
-
-    &__mobile-countdown {
+    &__countdown {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -153,6 +159,12 @@ const setCountdown = () => {
         font-weight: 700;
         font-size: 36px;
         line-height: 40px;
+
+        @media (min-width: 1024px) {
+            font-weight: 700;
+            font-size: 60px;
+            line-height: 1;
+        }
     }
 }
 

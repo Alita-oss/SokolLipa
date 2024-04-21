@@ -5,26 +5,34 @@
         </NuxtLink>
 
         <div class="nav-wrapper">
-            <nav :class="{ active: navOpened }">
-                <ul>
-                    <li 
-                        v-for="item in items" 
-                        :key="item.name" 
-                        :class="{active: item.link === path}"
-                    >
-                        <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
-                    </li>
-                </ul>
-            </nav>
+            <Transition name="fade">
+                <nav v-if="!isMobile || navOpened" @click="toggleNav">
+                    <ul>
+                        <li 
+                            v-for="item in items" 
+                            :key="item.name" 
+                            :class="{ active: item.link === path }"
+                        >
+                            <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
+                        </li>
+                    </ul>
+                </nav>
+            </Transition>
         </div>
-        <div class="hamburger-menu" @click="toggleNav">
-            <img src="@/assets/icons/menu.svg" alt="hamburger menu" />
+
+        <div v-if="isMobile" class="hamburger-menu nav-wrapper" @click="toggleNav">
+            <div>
+                <menuIcon />
+            </div>
         </div>
     </header>
 </template>
 
 <script setup lang="ts">
+import menuIcon from '@/components/icons/menu.vue';
+
 const route = useRoute();
+const { isMobile } = useDevice();
 const path = computed(() => {
     return route.path;
 });
@@ -83,6 +91,14 @@ header {
             height: 40px;
             font-size: 20px;
             line-height: 28px;
+            
+            &:active {
+                background-color: var(--color-green-600);
+            }
+
+            &:hover {
+                background-color: var(--color-green-600-half);
+            }
 
             @media (min-width: 1024px) {
                 padding: 0 10px;
@@ -91,15 +107,21 @@ header {
                 line-height: 32px;
             }
 
-            &:hover {
-                background-color: var(--color-green-600-half);
+            &.active {
+                background-color: var(--color-green-600);
+
+                &:hover {
+                    background-color: var(--color-green-600);
+                }
             }
         }
     }
 }
+
 .logo {
     margin: 30px 0 0 20px;
 }
+
 .nav-wrapper {
     display: flex;
     align-items: center;
@@ -107,34 +129,35 @@ header {
     max-height: 80px;
     margin: 0 20px;
 }
+
 nav {
     position: fixed;
     top: 80px;
     left: 0;
     width: 100%;
     height: 100%;
-    display: none;
+    background-color: var(--color-green-600-half);
 
     @media (min-width: 1024px) {
         position: relative;
         top: auto;
         left: auto;
         width: auto;
-        display: block;
+        background-color: transparent;
     }
-
-    &.active {
-        display: block;
-    }
-}
-
-.active {
-    background-color: var(--color-green-600);
 }
 
 .hamburger-menu {
-    @media (min-width: 1024px) {
-        display: none;
-    }
+    vertical-align: middle;
+    fill: #fff;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

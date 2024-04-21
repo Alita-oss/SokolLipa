@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     modules: [
       '@nuxtjs/sanity',
       '@pinia/nuxt',
+      '@nuxtjs/device',
     ],
     sanity: {
       projectId: 'mgriwqg2'

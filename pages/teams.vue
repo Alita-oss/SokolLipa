@@ -17,6 +17,9 @@ const { data, refresh } = useSanityQuery<Team>(query);
 .players {
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(2, 1fr);
+
+    @media (min-width: 1024px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 </style>
