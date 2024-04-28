@@ -113,7 +113,7 @@ const setCountdown = () => {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 112px;
+        height: 100px;
 
         @media (min-width: 1024px) {
             height: 128px;
@@ -143,6 +143,7 @@ const setCountdown = () => {
 
             &__team-name {
                 display: none;
+                margin-top: 50px;
 
                 @media (min-width: 1024px) {
                     display: flex;
@@ -155,10 +156,11 @@ const setCountdown = () => {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 112px;
+        height: 100px;
         font-weight: 700;
         font-size: 36px;
         line-height: 40px;
+        margin-top: 20px;
 
         @media (min-width: 1024px) {
             font-weight: 700;

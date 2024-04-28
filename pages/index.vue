@@ -89,11 +89,13 @@ const nextGame = computed(() => {
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-    margin-top: -20px;
+    //margin-top: 60px;
+    margin-top: -50px;
     position: relative;
 
     @media (min-width: 1024px) {
         height: 400px;
+        margin-top: 60px;
     }
 
     &__info {
