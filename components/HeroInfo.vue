@@ -4,7 +4,7 @@
     </span>
     <div v-if="game" class="hero__row">
         <div class="hero__row__section">
-            <SanityImage 
+            <SanityImage
                 v-if="game.homeTeam?.logo?.asset?._ref"
                 :asset-id="game.homeTeam.logo.asset._ref"
                 :alt="game.homeTeam.logo.alt"
@@ -16,14 +16,14 @@
                 w="200"
             />
         </div>
-        <div v-if="countdown && !isMobile" class="hero__row__section">
-            <span class="hero__countdown fuzz">
+        <div class="hero__row__section">
+            <span v-if="countdown && !isMobile" class="hero__countdown fuzz">
                 {{ countdown }}
-            </span> 
+            </span>
         </div>
         <div class="hero__row__section">
-            <SanityImage 
-                v-if="game.awayTeam?.logo?.asset?._ref" 
+            <SanityImage
+                v-if="game.awayTeam?.logo?.asset?._ref"
                 :asset-id="game.awayTeam.logo.asset._ref"
                 :alt="game.awayTeam.logo.alt"
                 auto="format"
@@ -45,7 +45,7 @@
                 {{ new Date(game.date).toLocaleDateString() }}
             </span>
             <span class="fuzz">
-                {{ new  Date(game.date).toLocaleTimeString([], { timeStyle: 'short' }) }}
+                {{ new Date(game.date).toLocaleTimeString([], { timeStyle: 'short' }) }}
             </span>
         </div>
         <span class="hero__row__section hero__row__section--big hero__row__section__team-name fuzz">
@@ -67,37 +67,42 @@ const setCountdown = () => {
     if (!props.game?.date) {
         return;
     }
-    
+
     const currentDate = new Date();
     const nextGameDate = new Date(props.game.date);
     const diff = nextGameDate.getTime() - currentDate.getTime();
-    
-    const seconds = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
-    const minutes = Math.floor((diff / (1000 * 60)) % 60).toString().padStart(2, '0');
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24).toString().padStart(2, '0');
-    const days = Math.floor((diff / (1000 * 60 * 60 * 24))).toString();
+
+    const seconds = Math.floor((diff / 1000) % 60)
+        .toString()
+        .padStart(2, '0');
+    const minutes = Math.floor((diff / (1000 * 60)) % 60)
+        .toString()
+        .padStart(2, '0');
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
+        .toString()
+        .padStart(2, '0');
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24)).toString();
 
     countdown.value = `${days}:${hours}:${minutes}:${seconds}`;
 };
 
-(() => {
+onMounted(() => {
     if (!props.game?.date) {
         return;
     }
 
     setCountdown();
-
     setInterval(() => {
         setCountdown();
     }, 1000);
-})();
+});
 </script>
 
 <style scoped lang="scss">
 .hero {
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
     color: #fff;
     height: 300px;
     background-repeat: no-repeat;
@@ -124,17 +129,17 @@ const setCountdown = () => {
             flex-direction: column;
             align-items: center;
             width: 50%;
-    
+
             @media (min-width: 1024px) {
                 width: 33.3333%;
             }
-    
+
             &--big {
                 font-weight: 700;
                 font-size: 30px;
                 line-height: 36px;
             }
-    
+
             &--medium {
                 font-weight: 700;
                 font-size: 24px;

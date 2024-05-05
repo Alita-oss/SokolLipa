@@ -1,7 +1,7 @@
 <template>
     <li v-if="game" @click="onClick">
         <div class="block block--left">
-            <SanityImage 
+            <SanityImage
                 v-if="game.homeTeam?.logo?.asset?._ref"
                 :asset-id="game.homeTeam.logo.asset._ref"
                 :alt="game.homeTeam.logo.alt"
@@ -24,15 +24,15 @@
                 {{ new Date(game.date).toLocaleDateString() }}
             </div>
             <div v-if="!hasScores" class="block__time">
-                {{ new  Date(game.date).toLocaleTimeString([], { timeStyle: 'short' }) }}
+                {{ new Date(game.date).toLocaleTimeString([], { timeStyle: 'short' }) }}
             </div>
         </div>
-        <div class="block  block--right">
+        <div class="block block--right">
             <span class="block__team">
                 {{ game.awayTeam.name }}
             </span>
             <SanityImage
-                v-if="game.awayTeam?.logo?.asset?._ref" 
+                v-if="game.awayTeam?.logo?.asset?._ref"
                 :asset-id="game.awayTeam.logo.asset._ref"
                 :alt="game.awayTeam.logo.alt"
                 auto="format"
@@ -47,23 +47,23 @@
 </template>
 
 <script setup lang="ts">
-    import { useMainStore } from '~/stores/main';
-    import type { Game } from '~/types/game';
+import { useMainStore } from '~/stores/main';
+import type { Game } from '~/types/game';
 
-    const isUndefined = useIsUndefined();
+const isUndefined = useIsUndefined();
 
-    const props = defineProps<{
-        game: Game;
-    }>();
+const props = defineProps<{
+    game: Game;
+}>();
 
-    const { popupGame } = storeToRefs(useMainStore());
-    const onClick = () => {
-        popupGame.value = props.game;
-    };
+const { popupGame } = storeToRefs(useMainStore());
+const onClick = () => {
+    popupGame.value = props.game;
+};
 
-    const hasScores = computed(() => {
-        return !isUndefined(props.game.homeTeamScore) && !isUndefined(props.game.awayTeamScore)
-    });
+const hasScores = computed(() => {
+    return !isUndefined(props.game.homeTeamScore) && !isUndefined(props.game.awayTeamScore);
+});
 </script>
 
 <style scoped lang="scss">
@@ -73,9 +73,9 @@ li {
     padding: 12px;
     border-bottom: 1px solid var(--color-green-600-half);
     cursor: pointer;
-    
+
     &:hover {
-       background-color: var(--color-green-600-quarter);
+        background-color: var(--color-green-600-quarter);
     }
 }
 .block {
@@ -94,7 +94,7 @@ li {
     }
 
     &--right {
-       justify-content: right; 
+        justify-content: right;
     }
 
     &__team {
@@ -107,7 +107,7 @@ li {
             display: block;
         }
     }
-    
+
     &__score {
         font-size: 18px;
         line-height: 28px;

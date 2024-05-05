@@ -3,13 +3,14 @@
         <Transition name="fade">
             <div v-if="show" class="scorecard__main" @click.stop>
                 <div class="scorecard__closer" @click="close">
-                    <img src="@/assets/icons/close.svg" alt="close">
+                    <img src="@/assets/icons/close.svg" alt="close" />
                 </div>
-                <h1 class="scorecard__title">
-                    Výsledková listina
-                </h1>
+                <h1 class="scorecard__title">Výsledková listina</h1>
                 <div class="scorecard__content">
-                    <div class="scorecard__score--mobile">
+                    <div
+                        v-if="isMobile && (!isUndefined(game.homeTeamScore) || !isUndefined(game.awayTeamScore))"
+                        class="scorecard__score--mobile"
+                    >
                         <span class="scorecard__score--mobile__score">
                             {{ game.homeTeamScore }}
                         </span>
@@ -20,7 +21,7 @@
                     </div>
                     <div class="scorecard__content__inner">
                         <div class="scorecard__team-info">
-                            <SanityImage 
+                            <SanityImage
                                 v-if="game.homeTeam?.logo?.asset?._ref"
                                 :asset-id="game.homeTeam.logo.asset._ref"
                                 :alt="game.homeTeam.logo.alt"
@@ -35,11 +36,14 @@
                                 {{ game.homeTeam.name }}
                             </span>
                         </div>
-                        <div v-if="!isUndefined(game.homeTeamScore) || !isUndefined(game.awayTeamScore)" class="scorecard__score--desktop">
+                        <div
+                            v-if="!isMobile && (!isUndefined(game.homeTeamScore) || !isUndefined(game.awayTeamScore))"
+                            class="scorecard__score--desktop"
+                        >
                             {{ game.homeTeamScore + ' - ' + game.awayTeamScore }}
                         </div>
                         <div class="scorecard__team-info">
-                            <SanityImage 
+                            <SanityImage
                                 v-if="game.awayTeam?.logo?.asset?._ref"
                                 :asset-id="game.awayTeam.logo.asset._ref"
                                 :alt="game.awayTeam.logo.alt"
@@ -59,7 +63,7 @@
                         {{ new Date(game.date).toLocaleDateString() }}
                     </div>
                     <div class="scorecard__time">
-                        {{ new  Date(game.date).toLocaleTimeString([], { timeStyle: 'short' }) }}
+                        {{ new Date(game.date).toLocaleTimeString([], { timeStyle: 'short' }) }}
                     </div>
                 </div>
             </div>
@@ -68,26 +72,28 @@
 </template>
 
 <script setup lang="ts">
-    import type { Game } from '~/types/game';
+import type { Game } from '~/types/game';
 
-    const isUndefined = useIsUndefined();
+const isUndefined = useIsUndefined();
+const { isMobile } = useDevice();
 
-    const emit = defineEmits(['close']);
-    const props = defineProps<{
-        game?: Game;
-    }>();
-    const close = () => {
-        show.value = false; 
-        setTimeout(() => {
-            emit('close');  
-        }, 400);    
-    };
-    const show = ref(false);
-    onMounted(() => {
-        setTimeout(() => {
-            show.value = true;
-        }, 50);
-    });
+const emit = defineEmits(['close']);
+defineProps<{
+    game?: Game;
+}>();
+const close = () => {
+    show.value = false;
+    setTimeout(() => {
+        emit('close');
+    }, 400);
+};
+const show = ref(false);
+
+onMounted(() => {
+    setTimeout(() => {
+        show.value = true;
+    }, 50);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -102,7 +108,7 @@
     justify-content: center;
     align-items: center;
     background-color: #0f172acc;
-    
+
     &__main {
         max-width: 800px;
         border-radius: 8px;
@@ -175,7 +181,12 @@
                 display: none;
                 width: 0;
                 height: 0;
-            }  
+            }
+
+            &__score {
+                width: 100%;
+                text-align: center;
+            }
         }
     }
 
@@ -185,8 +196,8 @@
         line-height: 32px;
         width: 50%;
         display: grid;
-        grid-template-columns: repeat(1,minmax(0,1fr));
-        grid-template-rows: repeat(2,minmax(0,1fr));
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        grid-template-rows: repeat(2, minmax(0, 1fr));
         place-items: center;
 
         @media (min-width: 1024px) {
@@ -212,10 +223,10 @@
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease;
 }
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
 </style>
