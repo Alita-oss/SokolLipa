@@ -8,11 +8,7 @@
             <Transition name="fade">
                 <nav v-if="!isMobile || navOpened" @click="toggleNav">
                     <ul>
-                        <li 
-                            v-for="item in items" 
-                            :key="item.name" 
-                            :class="{ active: item.link === path }"
-                        >
+                        <li v-for="item in items" :key="item.name" :class="{ active: item.link === path }">
                             <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
                         </li>
                     </ul>
@@ -36,7 +32,7 @@ const { isMobile } = useDevice();
 const path = computed(() => {
     return route.path;
 });
-
+// comment
 const items = [
     { link: '/', name: 'Home' },
     { link: '/seasons', name: 'Sezóny' },
@@ -91,7 +87,7 @@ header {
             height: 40px;
             font-size: 20px;
             line-height: 28px;
-            
+
             &:active {
                 background-color: var(--color-green-600);
             }
@@ -154,10 +150,10 @@ nav {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease;
 }
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
 </style>
