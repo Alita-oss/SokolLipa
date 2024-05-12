@@ -32,7 +32,7 @@ const { isMobile } = useDevice();
 const path = computed(() => {
     return route.path;
 });
-// comment
+
 const items = [
     { link: '/', name: 'Home' },
     { link: '/seasons', name: 'Sezóny' },
