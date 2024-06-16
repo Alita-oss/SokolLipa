@@ -1,6 +1,10 @@
 <template>
-    <li v-if="game" @click="onClick">
-        <div class="block block--left">
+    <li v-if="game" @click="onClick" class="game">
+    <div class="game__info">
+        <div class="block--left">
+            <span class="block__team">
+                {{ game.homeTeam.name }}
+            </span>
             <SanityImage
                 v-if="game.homeTeam?.logo?.asset?._ref"
                 :asset-id="game.homeTeam.logo.asset._ref"
@@ -12,12 +16,9 @@
                 h="80"
                 w="80"
             />
-            <span class="block__team">
-                {{ game.homeTeam.name }}
-            </span>
         </div>
-        <div class="block block--center">
-            <div v-if="hasScores" class="block__score">
+        <div class="block--center">
+            <!-- <div v-if="hasScores" class="block__score">
                 {{ game.homeTeamScore + ' - ' + game.awayTeamScore }}
             </div>
             <div class="block__date">
@@ -25,12 +26,10 @@
             </div>
             <div v-if="!hasScores" class="block__time">
                 {{ new Date(game.date).toLocaleTimeString([], { timeStyle: 'short' }) }}
-            </div>
+            </div> -->
+            VS.
         </div>
-        <div class="block block--right">
-            <span class="block__team">
-                {{ game.awayTeam.name }}
-            </span>
+        <div class="block--right">
             <SanityImage
                 v-if="game.awayTeam?.logo?.asset?._ref"
                 :asset-id="game.awayTeam.logo.asset._ref"
@@ -42,7 +41,14 @@
                 h="80"
                 w="80"
             />
+            <span class="block__team">
+                {{ game.awayTeam.name }}
+            </span>
         </div>
+    </div>
+        <NuxtLink :to="`/video/${videoId}`" @click.stop class="game__video">
+            <video :src="videoUrl" class="video-poster"></video>
+        </NuxtLink>
     </li>
 </template>
 
@@ -64,12 +70,28 @@ const onClick = () => {
 const hasScores = computed(() => {
     return !isUndefined(props.game.homeTeamScore) && !isUndefined(props.game.awayTeamScore);
 });
+
+const videoId = computed(() => {
+    if (props.game.video?.asset?._ref) {
+        const ref = props.game.video.asset._ref;
+
+        const regex = /([a-f0-9]{40})/;
+        const matches = ref.match(regex);
+        
+        if (matches) {
+            return matches.find(match => match);
+        }
+    }
+});
+
+const videoUrl = computed(() => {
+    return `https://cdn.sanity.io/files/mgriwqg2/production/${videoId.value}.mp4`;
+});
 </script>
 
 <style scoped lang="scss">
-li {
+.game {
     display: flex;
-    justify-content: space-between;
     padding: 12px;
     border-bottom: 1px solid var(--color-green-600-half);
     cursor: pointer;
@@ -77,24 +99,38 @@ li {
     &:hover {
         background-color: var(--color-green-600-quarter);
     }
+
+    &__info {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    &__video {
+
+    }
 }
 .block {
-    display: flex;
-    align-items: center;
-    width: 33.33333%;
-
     &--left {
-        justify-content: left;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
     }
 
     &--center {
         justify-content: center;
+        align-items: center;
         flex-direction: column;
         font-weight: 600;
+        min-width: 120px;
     }
 
     &--right {
-        justify-content: right;
+        width: 100%;
+        display: flex;
+        align-items: center;
     }
 
     &__team {
@@ -109,19 +145,30 @@ li {
     }
 
     &__score {
+        width: 100%;
+        text-align: center;
         font-size: 18px;
         line-height: 28px;
     }
 
     &__date {
+        width: 100%;
+        text-align: center;
         font-size: 18px;
         line-height: 28px;
         white-space: nowrap;
     }
 
     &__time {
+        width: 100%;
+        text-align: center;
         white-space: nowrap;
         font-weight: 400;
     }
+}
+
+.video-poster{
+    height: 40px;
+    aspect-ratio: calc(16/9);
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div class="page video-player">
-        <video src="@/assets/videos/bob.mp4" controls playsinline></video>
+        <video :src="videoUrl" controls playsinline></video> 
     </div>
 </template>
 
@@ -8,6 +8,11 @@
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
+
+const videoUrl = computed(() => {
+    const videoId = route.params.id;
+    return `https://cdn.sanity.io/files/mgriwqg2/production/${videoId}.mp4`;
+});
 </script>
 
 <style scoped lang="scss">

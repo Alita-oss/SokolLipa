@@ -15,4 +15,10 @@ export type Game = {
     awayTeamScore: number;
     date: Date;
     description?: string;
+    video: {
+        asset: {
+            _ref: string;
+            _type: string;
+        };
+    };
 };

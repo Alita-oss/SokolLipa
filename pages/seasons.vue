@@ -30,6 +30,7 @@ const query = groq`
                     awayTeamScore,
                     homeTeamScore,
                     date,
+                    video,
                 },
             },
         }

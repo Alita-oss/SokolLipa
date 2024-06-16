@@ -32,6 +32,7 @@ const seasonQuery = groq`
                     awayTeamScore,
                     homeTeamScore,
                     date,
+                    video,
                 },
             },
         }
