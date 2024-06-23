@@ -7,8 +7,8 @@
         <div class="nav-wrapper">
             <Transition name="fade">
                 <nav v-if="!isMobile || navOpened" @click="toggleNav">
-                    <ul>
-                        <li v-for="item in items" :key="item.name" :class="{ active: item.link === path }">
+                    <ul class="nav-ul">
+                        <li v-for="item in items" :key="item.name" :class="{ active: item.link === path }" class="nav-li">
                             <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
                         </li>
                     </ul>
@@ -45,6 +45,36 @@ const navOpened = ref(false);
 const toggleNav = () => {
     navOpened.value = !navOpened.value;
 };
+const theme = ref({
+   ul: {
+    position: isMobile ? 'absolute' : 'relative',
+    left: isMobile ? 0 : 'auto',
+    right: isMobile ? 0 : 'auto',
+    height: isMobile ? 'auto' : '100%',
+    padding: isMobile ? '20px 0' : 0,
+    display: isMobile ? 'unset' : 'flex',
+   },
+   li: {
+    padding: isMobile ? '24px 0 24px 10px' : '0 10px',
+    height: isMobile ? '40px' : 'auto',
+    fontSize: isMobile ? '20px' : '24px',
+    lineHeight: isMobile ? '28px' : '32px',
+   },
+   nav: isMobile ?
+        {
+            position: 'fixed',
+            top: '80px',
+            left: 0,
+            width: '100%',
+            backgroundColor: 'rgba(22, 163, 74, 0.5)',
+        } : {
+            position: 'relative',
+            top: 'auto',
+            left: 'auto',
+            width: 'auto',
+            backgroundColor: 'transparent',
+        } 
+});
 </script>
 
 <style lang="scss" scoped>
@@ -61,32 +91,24 @@ header {
     z-index: var(--z-header-bg);
     height: 80px;
 
-    ul {
+    .nav-ul {
         background-color: var(--color-bg-second);
-        position: absolute;
-        left: 0;
-        right: 0;
-        padding: 20px 0;
-        height: auto;
+        position: v-bind('theme.ul.position');
+        left: v-bind('theme.ul.left');
+        right: v-bind('theme.ul.right');
+        padding: v-bind('theme.ul.padding');
+        height: v-bind('theme.ul.height');
         z-index: var(--z-header);
+        display: v-bind('theme.ul.display');
 
-        @media (min-width: 1024px) {
-            position: relative;
-            left: auto;
-            right: auto;
-            height: 100%;
-            padding: 0;
-            display: flex;
-        }
-
-        li {
+        .nav-li {
             display: flex;
             align-items: center;
             cursor: pointer;
-            padding: 24px 0 24px 10px;
-            height: 40px;
-            font-size: 20px;
-            line-height: 28px;
+            padding: v-bind('theme.li.padding');
+            height: v-bind('theme.li.height');
+            font-size: v-bind('theme.li.fontSize');
+            line-height: v-bind('theme.li.lineHeight');
 
             &:active {
                 background-color: var(--color-green-600);
@@ -94,13 +116,6 @@ header {
 
             &:hover {
                 background-color: var(--color-green-600-half);
-            }
-
-            @media (min-width: 1024px) {
-                padding: 0 10px;
-                height: auto;
-                font-size: 24px;
-                line-height: 32px;
             }
 
             &.active {
@@ -127,20 +142,12 @@ header {
 }
 
 nav {
-    position: fixed;
-    top: 80px;
-    left: 0;
-    width: 100%;
+    position: v-bind('theme.nav.position');
+    top: v-bind('theme.nav.top');
+    left: v-bind('theme.nav.left');
+    width: v-bind('theme.nav.width');
     height: 100%;
-    background-color: var(--color-green-600-half);
-
-    @media (min-width: 1024px) {
-        position: relative;
-        top: auto;
-        left: auto;
-        width: auto;
-        background-color: transparent;
-    }
+    background-color: v-bind('theme.nav.backgroundColor');
 }
 
 .hamburger-menu {
