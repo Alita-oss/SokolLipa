@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import type { Season } from '~/types/season';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
-import type { Game } from '~/types/game';
+import { isFutureGame } from '~/composables/isFutureGame';
 
 const heroQuery = groq`*[_type == 'hero'][0]{image}`;
 const seasonQuery = groq`
@@ -62,12 +62,6 @@ const remainingGames = computed(() => {
         return isFutureGame(game) && game.date !== nextGame.value?.date;
     });
 });
-
-const isFutureGame = (game: Game): boolean => {
-    const dt = new Date();
-
-    return new Date(game.date) > dt;
-};
 </script>
 
 <style lang="scss" scoped>
