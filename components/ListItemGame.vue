@@ -85,7 +85,7 @@ const hasVideo = computed(() => {
 });
 
 const videoId = computed(() => {
-    if (props.game.video?.asset?._ref) {
+    if (hasVideo.value) {
         const ref = props.game.video.asset._ref;
 
         const regex = /([a-f0-9]{40})/;
