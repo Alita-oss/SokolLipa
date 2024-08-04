@@ -65,6 +65,9 @@
                     <div class="scorecard__time">
                         {{ new Date(game.date).toLocaleTimeString([], { timeStyle: 'short' }) }}
                     </div>
+                    <span class="scorecard__description">
+                        {{ game.description?.replace(/\n\n/g, '\n') }}
+                    </span>
                 </div>
             </div>
         </Transition>
@@ -218,6 +221,16 @@ onMounted(() => {
         justify-content: center;
         white-space: nowrap;
         font-weight: 400;
+    }
+
+    &__description {
+        white-space: pre-line;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        margin-top: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 

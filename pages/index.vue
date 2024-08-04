@@ -6,10 +6,13 @@
                 <HeroInfo :game="nextGame" />
             </div>
         </div>
-        <h3 class="season__title">{{ teamASeason.year }} Tým A</h3>
-        <UnorderedList>
-            <ListItemGame v-for="(game, index) in remainingGames" :key="index" :game="game" />
-        </UnorderedList>
+        <div v-if="remainingGames?.length">
+            <h3 class="season__title">{{ teamASeason.year }} Tým A</h3>
+            <UnorderedList>
+                <ListItemGame v-for="(game, index) in remainingGames" :key="index" :game="game" />
+            </UnorderedList>
+        </div>
+        <h3 v-else class="season__title">Další sezóna se blíží!</h3>
     </div>
 </template>
 

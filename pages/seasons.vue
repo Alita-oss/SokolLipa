@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Season } from "~/types/season";
-import { useMainStore } from "~/stores/main";
+import type { Season } from '~/types/season';
+import { useMainStore } from '~/stores/main';
 const { activeTab } = storeToRefs(useMainStore());
 
 const query = groq`
@@ -31,6 +31,7 @@ const query = groq`
                     homeTeamScore,
                     date,
                     video,
+                    description,
                 },
             },
         }
