@@ -8,8 +8,10 @@
             <Transition name="fade">
                 <nav v-if="!isMobile || navOpened" @click="toggleNav">
                     <ul class="nav-ul">
-                        <li v-for="item in items" :key="item.name" :class="{ active: item.link === path }" class="nav-li">
-                            <NuxtLink :to="item.link">{{ item.name }}</NuxtLink>
+                        <li v-for="item in items" :key="item.name">
+                            <NuxtLink :to="item.link" :class="{ active: item.link === path }" class="nav-li">
+                                {{ item.name }}
+                            </NuxtLink>
                         </li>
                     </ul>
                 </nav>
@@ -46,34 +48,35 @@ const toggleNav = () => {
     navOpened.value = !navOpened.value;
 };
 const theme = ref({
-   ul: {
-    position: isMobile ? 'absolute' : 'relative',
-    left: isMobile ? 0 : 'auto',
-    right: isMobile ? 0 : 'auto',
-    height: isMobile ? 'auto' : '100%',
-    padding: isMobile ? '20px 0' : 0,
-    display: isMobile ? 'unset' : 'flex',
-   },
-   li: {
-    padding: isMobile ? '24px 0 24px 10px' : '0 10px',
-    height: isMobile ? '40px' : 'auto',
-    fontSize: isMobile ? '20px' : '24px',
-    lineHeight: isMobile ? '28px' : '32px',
-   },
-   nav: isMobile ?
-        {
-            position: 'fixed',
-            top: '80px',
-            left: 0,
-            width: '100%',
-            backgroundColor: 'rgba(22, 163, 74, 0.5)',
-        } : {
-            position: 'relative',
-            top: 'auto',
-            left: 'auto',
-            width: 'auto',
-            backgroundColor: 'transparent',
-        } 
+    ul: {
+        position: isMobile ? 'absolute' : 'relative',
+        left: isMobile ? 0 : 'auto',
+        right: isMobile ? 0 : 'auto',
+        height: isMobile ? 'auto' : '100%',
+        padding: isMobile ? '20px 0' : 0,
+        display: isMobile ? 'unset' : 'flex',
+    },
+    li: {
+        padding: isMobile ? '24px 0 24px 10px' : '0 10px',
+        height: isMobile ? '40px' : 'auto',
+        fontSize: isMobile ? '20px' : '24px',
+        lineHeight: isMobile ? '28px' : '32px',
+    },
+    nav: isMobile
+        ? {
+              position: 'fixed',
+              top: '80px',
+              left: 0,
+              width: '100%',
+              backgroundColor: 'rgba(22, 163, 74, 0.5)',
+          }
+        : {
+              position: 'relative',
+              top: 'auto',
+              left: 'auto',
+              width: 'auto',
+              backgroundColor: 'transparent',
+          },
 });
 </script>
 
@@ -124,6 +127,11 @@ header {
                 &:hover {
                     background-color: var(--color-green-600);
                 }
+            }
+
+            &__link {
+                height: 100%;
+                width: 100%;
             }
         }
     }
