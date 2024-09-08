@@ -58,7 +58,7 @@ const theme = ref({
     },
     li: {
         padding: isMobile ? '24px 0 24px 10px' : '0 10px',
-        height: isMobile ? '40px' : 'auto',
+        height: isMobile ? '40px' : '100%',
         fontSize: isMobile ? '20px' : '24px',
         lineHeight: isMobile ? '28px' : '32px',
     },
@@ -127,11 +127,6 @@ header {
                 &:hover {
                     background-color: var(--color-green-600);
                 }
-            }
-
-            &__link {
-                height: 100%;
-                width: 100%;
             }
         }
     }
