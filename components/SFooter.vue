@@ -4,11 +4,11 @@
             <img src="@/assets/images/logo.png" alt="Sokol Lípa logo" height="120" width="120" />
         </NuxtLink>
         <small>Marcus Wiseman | Zdeňka Kameníková &copy; {{ new Date().getFullYear() }}</small>
-    </footer>  
+    </footer>
 </template>
 
 <script setup lang="ts">
-
+// hi
 </script>
 
 <style scoped lang="scss">
