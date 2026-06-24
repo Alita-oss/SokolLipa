@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import type { Season } from '~/types/season';
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import type { SanityImageSource } from '@sanity/image-url';
 import { isFutureGame } from '~/composables/isFutureGame';
 
 const heroQuery = groq`*[_type == 'hero'][0]{image}`;

@@ -1,8 +1,8 @@
 import type { Player } from './player';
-import type { SanityImage } from '@sanity/image-url/lib/types/types';
+import type { SanityImageObjectObject } from '@sanity/image-url';
 
 export type Team = {
     players: Player[];
     name: string;
-    logo: SanityImage;
+    logo: SanityImageObject;
 };

@@ -1,13 +1,13 @@
-import type { SanityImage } from '@sanity/image-url/lib/types/types';
+import type { SanityImageObjectObject } from '@sanity/image-url';
 
 export type Game = {
     homeTeam: {
-        logo: SanityImage;
+        logo: SanityImageObject;
         name: string;
         players?: [];
     };
     awayTeam: {
-        logo: SanityImage;
+        logo: SanityImageObject;
         name: string;
         players?: [];
     };
